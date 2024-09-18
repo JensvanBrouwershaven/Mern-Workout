@@ -1,20 +1,19 @@
 import express from 'express';
-import Workout from '../Model/Workout.js';
+import {
+    createWorkout,
+    getWorkouts,
+    getWorkout,
+    deleteWorkout,
+    updateWorkout // Import updateWorkout here
+} from '../controllers/workoutController.js';
 
 const router = express.Router();
 
-router.get('/', (req,res) =>{
-    res.json({ msg: "Get all workouts" });
-})
-router.post('/', async (req,res) =>{
-    const { title, load, reps } = req.body;
-    try {
-        const workout = await Workout.create({title, reps, load})
-        res.status(200).json(workout);
-    }
-    catch (error) {
-        res.status(400).json({error: error.message})
-    }
-})
+// Define routes
+router.get('/', getWorkouts);
+router.get('/:id', getWorkout);
+router.post('/', createWorkout);
+router.delete('/:id', deleteWorkout);
+router.patch('/:id', updateWorkout); // Use PATCH for partial updates or PUT for full updates
 
-export default router
+export default router;
